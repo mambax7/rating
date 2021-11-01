@@ -33,6 +33,8 @@ use XoopsModules\Rating\{
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsPageNav');
 
+global $xoopsTpl;
+
 xoops_cp_header();
 $adminObject = Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));

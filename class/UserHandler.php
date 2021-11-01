@@ -86,6 +86,7 @@ class UserHandler extends \XoopsPersistableObjectHandler
     public function getHasVoted($id, $pageId)
     {
         global $xoopsUser;
+        $ret = 0;
 
         if (null != $xoopsUser) {
             $uid    = $xoopsUser->uid();
@@ -99,7 +100,8 @@ class UserHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('ip', $ip), 'OR');
             $criteria->add(new \Criteria('item_id', $pageId), 'AND');
             $criteria->add(new \Criteria('rating_id', $id), 'AND');
+            $ret = $this->getCount($criteria);
         }
-        return $this->getCount($criteria);
+        return $ret;
     }
 }

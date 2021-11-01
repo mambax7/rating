@@ -20,6 +20,7 @@ declare(strict_types=1);
  * @since           2.6.0
  * @author          Cointin Maxime (AKA Kraven30)
  */
+/** @var Admin $adminObject */
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 

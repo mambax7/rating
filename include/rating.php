@@ -35,6 +35,7 @@ function rating($pageId = 0, $pageName = '')
 {
     $helper = \XoopsModules\Rating\Helper::getInstance();
     $helper->loadLanguage('main');
+    $ratings = [];
 
     $GLOBALS['xoTheme']->addStylesheet('/modules/rating/assets/css/jRating.jquery.css');
     $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');

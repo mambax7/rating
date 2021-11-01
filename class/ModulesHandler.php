@@ -66,6 +66,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
     public function getRatingDisplay($pageId, $pageName, $moduleId)
     {
         $helper = Helper::getInstance();
+        $ret          = [];
 
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
@@ -77,7 +78,6 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
         $modulesCount = $this->getCount($criteria, true);
         if ($modulesCount > 0) {
             $modulesArray = $this->getObjects($criteria, true);
-            $ret          = [];
             $userHandler  = $helper->getHandler('User');
             foreach (\array_keys($modulesArray) as $i) {
                 $ret[$i]['id']             = $modulesArray[$i]->getVar('id');
