@@ -24,6 +24,9 @@ namespace XoopsModules\Rating;
 
 use \XoopsDatabase;
 
+/**
+ *
+ */
 class Modules extends \XoopsObject
 {
     /**
@@ -41,6 +44,12 @@ class Modules extends \XoopsObject
         $this->initVar('stars', XOBJ_DTYPE_INT, null, false);
     }
 
+    /**
+     * @param $keys
+     * @param $format
+     * @param $maxDepth
+     * @return array
+     */
     public function getValues($keys = null, $format = null, $maxDepth = null)
     {
         $helper        = Helper::getInstance();
@@ -54,6 +63,9 @@ class Modules extends \XoopsObject
         return $ret;
     }
 
+    /**
+     * @return \XoopsModules\Rating\Form\ModulesForm
+     */
     public function getForm()
     {
         $form = new Form\ModulesForm($this);

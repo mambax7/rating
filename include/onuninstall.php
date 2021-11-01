@@ -38,7 +38,6 @@ function xoops_module_uninstall_rating(\XoopsModule $module)
     /** @var \XoopsModules\Rating\Helper $helper */
     $helper = Helper::getInstance();
 
-    /** @var Rating\Utility $utility */
     $utility = new Rating\Utility();
 
     $success = true;

@@ -24,6 +24,9 @@ namespace XoopsModules\Rating\Form;
 
 use XoopsModules\Rating\Helper;
 
+/**
+ *
+ */
 class ModulesForm extends \XoopsThemeForm
 {
     /**

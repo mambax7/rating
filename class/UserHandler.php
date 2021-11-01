@@ -33,6 +33,10 @@ class UserHandler extends \XoopsPersistableObjectHandler
         parent::__construct($db, 'rating_user', User::class, 'id', '');
     }
 
+    /**
+     * @param $asObject
+     * @return array
+     */
     public function getRatingUser($asObject = true)
     {
         $criteria = new \CriteriaCompo();
@@ -42,6 +46,11 @@ class UserHandler extends \XoopsPersistableObjectHandler
         return parent::getAll($criteria, false, $asObject);
     }
 
+    /**
+     * @param $Id
+     * @param $pageId
+     * @return int
+     */
     public function getCountRating($Id, $pageId)
     {
         $criteria = new \CriteriaCompo();
@@ -51,6 +60,11 @@ class UserHandler extends \XoopsPersistableObjectHandler
         return parent::getCount($criteria);
     }
 
+    /**
+     * @param $id
+     * @param $pageId
+     * @return mixed
+     */
     public function getAverage($id, $pageId)
     {
         $sql    = 'SELECT ROUND(AVG(rate),1) FROM ' . $this->db->prefix('rating_user');
@@ -62,6 +76,11 @@ class UserHandler extends \XoopsPersistableObjectHandler
         return $average;
     }
 
+    /**
+     * @param $id
+     * @param $pageId
+     * @return int
+     */
     public function getHasVoted($id, $pageId)
     {
         global $xoopsUser;

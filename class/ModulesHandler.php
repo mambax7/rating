@@ -24,6 +24,9 @@ namespace XoopsModules\Rating;
 
 use Xoops\Core\Database\Connection;
 
+/**
+ *
+ */
 class ModulesHandler extends \XoopsPersistableObjectHandler
 {
     /**
@@ -36,6 +39,12 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
         parent::__construct($db, 'rating_modules', Modules::class, 'id', '');
     }
 
+    /**
+     * @param $start
+     * @param $limit
+     * @param $asObject
+     * @return array
+     */
     public function getRatingModules($start = 0, $limit = 0, $asObject = true)
     {
         $criteria = new \CriteriaCompo();
@@ -47,6 +56,12 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
         return parent::getAll($criteria, false, $asObject);
     }
 
+    /**
+     * @param $pageId
+     * @param $pageName
+     * @param $moduleId
+     * @return array
+     */
     public function getRatingDisplay($pageId, $pageName, $moduleId)
     {
         $helper = Helper::getInstance();

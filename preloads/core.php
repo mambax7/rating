@@ -20,6 +20,10 @@
  */
 class RatingCorePreload extends \XoopsPreloadItem
 {
+    /**
+     * @param $args
+     * @return void
+     */
     public static function eventCoreIncludeCommonEnd($args)
     {
         $path = dirname(__DIR__);
@@ -31,6 +35,10 @@ class RatingCorePreload extends \XoopsPreloadItem
         require_once __DIR__ . '/autoloader.php';
     }
 
+    /**
+     * @param $args
+     * @return void
+     */
     public static function eventCoreIndexStart($args)
     {
         // check once per user session if expired poll email has been sent
@@ -42,6 +50,10 @@ class RatingCorePreload extends \XoopsPreloadItem
         //        }
     }
 
+    /**
+     * @param $args
+     * @return void
+     */
     public static function eventCoreHeaderAddmeta($args)
     {
         $path = dirname(__DIR__);

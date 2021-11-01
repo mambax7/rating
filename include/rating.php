@@ -24,6 +24,11 @@ if (!defined('XOOPS_ROOT_PATH') || !is_object($GLOBALS['xoopsModule'])) {
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
+/**
+ * @param $pageId
+ * @param $pageName
+ * @return mixed
+ */
 function rating($pageId = 0, $pageName = '')
 {
     $helper = \XoopsModules\Rating\Helper::getInstance();
