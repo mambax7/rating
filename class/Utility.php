@@ -6,7 +6,6 @@ namespace XoopsModules\Rating;
 
 use XoopsModules\Rating;
 use XoopsModules\Rating\Common;
-use XoopsModules\Rating\Constants;
 
 /**
  * Class Utility
