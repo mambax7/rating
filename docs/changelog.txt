@@ -1,4 +1,4 @@
-<h5>0.2.0 Alpha 1   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.25, PHP 8.0.12, PHP 8.1.0 Beta 5
+<h5>0.3.0 Alpha 1   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.25, PHP 8.0.12, PHP 8.1.0 Beta 5
 <hr>
 - converting to XOOPS 2.5.11 (mamba)
 - namespaces (mamba)
@@ -6,6 +6,10 @@
 - renamed 'PHP_SELF' to 'SCRIPT_NAME' (mamba)
 - Yoda
 - PHP7, PHP8 adjustments (mamba)
+
+<h5>0.2.0  [NOT RELEASED]</h5>
+<hr>
+- first conversion attempt to XOOPS 2.5.x (mamba)
 
 <h5>0.1.0  </h5>
 <hr>

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -23,9 +25,9 @@ require_once __DIR__ . '/preloads/autoloader.php';
 $moduleDirName = basename(__DIR__);
 
 $modversion                        = [];
-$modversion['version']             = 0.2;
-$modversion['module_status']       = 'ALPHA 1';
-$modversion['release_date']        = '2017/07/17';
+$modversion['version']             = '0.3.0';
+$modversion['module_status']       = 'Alpha 1';
+$modversion['release_date']        = '2021/10/31';
 $modversion['name']                = _MI_RATING_NAME;
 $modversion['description']         = _MI_RATING_DSC;
 $modversion['author']              = 'Kraven30';
