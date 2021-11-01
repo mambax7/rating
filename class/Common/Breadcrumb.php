@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rating\Common;
 
 /*
@@ -17,10 +19,9 @@ namespace XoopsModules\Rating\Common;
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      lucio <lucio.rota@gmail.com>
- * @package     rating
  *
  * Example:
- * $breadcrumb = new PedigreeBreadcrumb();
+ * $breadcrumb = new \Breadcrumb();
  * $breadcrumb->addLink( 'bread 1', 'index1.php' );
  * $breadcrumb->addLink( 'bread 2', '' );
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
@@ -32,6 +33,9 @@ namespace XoopsModules\Rating\Common;
  */
 class Breadcrumb
 {
+    /**
+     * @var string
+     */
     public  $dirname;
     private $bread = [];
 
@@ -43,10 +47,8 @@ class Breadcrumb
     /**
      * Add link to breadcrumb
      *
-     * @param string $title
-     * @param string $link
      */
-    public function addLink($title = '', $link = '')
+    public function addLink(string $title = '', string $link = ''): void
     {
         $this->bread[] = [
             'link'  => $link,
@@ -57,7 +59,7 @@ class Breadcrumb
     /**
      * Render BreadCrumb
      */
-    public function render()
+    public function render(): void
     {
         /*
         TODO if you want to use the render code below,

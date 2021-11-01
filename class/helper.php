@@ -1,25 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XoopsModules\Rating;
 
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 /**
- * rating module
- *
- * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         rating
- * @since           2.6.0
- * @author          Cointin Maxime (AKA Kraven30)
+ * @copyright    XOOPS Project (https://xoops.org)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @author       Cointin Maxime (AKA Kraven30)
+ * @author       XOOPS Development Team
  */
 
 /**
@@ -31,21 +30,18 @@ class Helper extends \Xmf\Module\Helper
 
     /**
      * @param bool $debug
-     * @internal param $debug
      */
-    protected function __construct($debug = false)
+    public function __construct($debug = false)
     {
         $this->debug   = $debug;
-        $moduleDirName = \basename(\dirname(__DIR__));
-        parent::__construct($moduleDirName);
+        if (null === $this->dirname) {
+            $dirname       = \basename(\dirname(__DIR__));
+            $this->dirname = $dirname;
+        }
+        parent::__construct($this->dirname);
     }
 
-    /**
-     * @param bool $debug
-     *
-     * @return \XoopsModules\Rating\Helper
-     */
-    public static function getInstance($debug = false)
+    public static function getInstance(bool $debug = false): Helper
     {
         static $instance;
         if (null === $instance) {
@@ -55,10 +51,7 @@ class Helper extends \Xmf\Module\Helper
         return $instance;
     }
 
-    /**
-     * @return string
-     */
-    public function getDirname()
+    public function getDirname(): string
     {
         return $this->dirname;
     }
@@ -68,11 +61,11 @@ class Helper extends \Xmf\Module\Helper
      *
      * @param string $name name of handler to load
      *
-     * @return bool|\XoopsObjectHandler|\XoopsPersistableObjectHandler
+     * @return \XoopsPersistableObjectHandler
      */
-    public function getHandler($name)
+    public function getHandler($name): ?\XoopsPersistableObjectHandler
     {
-        $ret = false;
+        $ret = null;
 
         $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
         if (!\class_exists($class)) {
@@ -82,7 +75,7 @@ class Helper extends \Xmf\Module\Helper
         $db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $helper = self::getInstance();
         $ret    = new $class($db, $helper);
-        $this->addLog("Getting handler '{$name}'");
+        $this->addLog("Getting handler '$name'");
         return $ret;
     }
 
