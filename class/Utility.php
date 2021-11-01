@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace XoopsModules\Rating;
 
-use XoopsModules\Rating;
 use XoopsModules\Rating\Common;
 
 /**

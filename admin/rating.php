@@ -25,7 +25,6 @@ use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Rating\{
     Helper,
-    Modules,
     ModulesHandler
 };
 

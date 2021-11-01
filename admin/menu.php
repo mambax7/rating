@@ -22,7 +22,6 @@ declare(strict_types=1);
  */
 
 use Xmf\Module\Admin;
-use XoopsModules\Rating;
 use XoopsModules\Rating\Helper;
 
 /** @var \XoopsModules\Rating\Helper $helper */

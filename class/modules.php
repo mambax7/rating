@@ -24,8 +24,6 @@ namespace XoopsModules\Rating;
  * @author          Cointin Maxime (AKA Kraven30)
  */
 
-use \XoopsDatabase;
-
 /**
  *
  */
