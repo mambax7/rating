@@ -80,7 +80,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
             $modulesArray = $this->getObjects($criteria, true);
             $ret          = [];
             $userHandler  = $helper->getHandler('User');
-            foreach (array_keys($modulesArray) as $i) {
+            foreach (\array_keys($modulesArray) as $i) {
                 $ret[$i]['id']             = $modulesArray[$i]->getVar('id');
                 $ret[$i]['title']          = $modulesArray[$i]->getVar('title');
                 $ret[$i]['stars']          = $modulesArray[$i]->getVar('stars');

@@ -38,7 +38,7 @@ class ModulesForm extends \XoopsThemeForm
     {
         $helper = Helper::getInstance();
 
-        $title = $obj->isNew() ? sprintf(_AM_RATING_ADD) : sprintf(_AM_RATING_EDIT);
+        $title = $obj->isNew() ? \sprintf(_AM_RATING_ADD) : \sprintf(_AM_RATING_EDIT);
         $stars = $obj->isNew() ? 5 : $obj->getVar('stars');
 
         //        parent::__construct($title, 'form', $xoops->getEnv('SCRIPT_NAME'), 'post', true);
@@ -53,13 +53,13 @@ class ModulesForm extends \XoopsThemeForm
         //        $modules->addOptionArray($options);
 
         /** @var XoopsModuleHandler $moduleHandler */
-        $moduleHandler = xoops_getHandler('module');
+        $moduleHandler = \xoops_getHandler('module');
         $criteria      = new \CriteriaCompo(new \Criteria('hasmain', 1));
         $criteria->add(new \Criteria('isactive', 1));
         $moduleList = $moduleHandler->getList($criteria);
         //        $moduleList[-1] = _AM_SYSTEM_BLOCKS_TOPPAGE;
         //        $moduleList[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
-        asort($moduleList);
+        \asort($moduleList);
         $modules->addOptionArray($moduleList);
 
         $this->addElement($modules, true);

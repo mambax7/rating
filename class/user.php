@@ -30,13 +30,13 @@ class User extends \XoopsObject
      */
     public function __construct()
     {
-        $this->initVar('id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('rating_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('item_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('uid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('rate', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('date', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('ip', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('rating_id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('item_id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('uid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('rate', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('date', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('ip', \XOBJ_DTYPE_TXTAREA, null, false);
     }
 }
 

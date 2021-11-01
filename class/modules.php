@@ -36,14 +36,14 @@ class Modules extends \XoopsObject
      */
     public function __construct()
     {
-        $this->initVar('id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('mid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('page', XOBJ_DTYPE_OTHER, null, false, 255);
-        $this->initVar('default', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('title', XOBJ_DTYPE_OTHER, null, false, 255);
-        $this->initVar('status', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('display', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('stars', XOBJ_DTYPE_INT, null, false);
+        $this->initVar('id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('mid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('page', \XOBJ_DTYPE_OTHER, null, false, 255);
+        $this->initVar('default', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('title', \XOBJ_DTYPE_OTHER, null, false, 255);
+        $this->initVar('status', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('display', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('stars', \XOBJ_DTYPE_INT, null, false);
     }
 
     /**
@@ -55,7 +55,7 @@ class Modules extends \XoopsObject
     public function getValues($keys = null, $format = null, $maxDepth = null)
     {
         $helper        = Helper::getInstance();
-        $moduleHandler = xoops_getHandler('module');
+        $moduleHandler = \xoops_getHandler('module');
         $ret           = parent::getValues($keys, $format, $maxDepth);
         $module        = $moduleHandler->get($this->getVar('mid'));
         $ret['module'] = $module->getVar('name');
