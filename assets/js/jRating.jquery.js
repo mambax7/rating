@@ -1,10 +1,10 @@
 /************************************************************************
  *************************************************************************
- @Name :           jRating - jQuery Plugin
- @Revison :        3.0
+ @Name :         jRating - jQuery Plugin
+ @Revison :      3.0
  @Date :         28/01/2013
- @Author:          ALPIXEL - (www.myjqueryplugins.com - www.alpixel.fr)
- @License :         Open Source - MIT License : http://www.opensource.org/licenses/mit-license.php
+ @Author:         ALPIXEL - (www.myjqueryplugins.com - www.alpixel.fr)
+ @License :       Open Source - MIT License : http://www.opensource.org/licenses/mit-license.php
 
  **************************************************************************
  *************************************************************************/
@@ -167,9 +167,9 @@
                                 data: "action=rating&idBox=" + idBox + "&rate=" + rate + "&pageId=" + opts.pageId,
                                 success: function (msg) {
                                     /*$('.rating-'+idBox).hide();
-                                     if(msg == 1) {
-                                     $('.rating-'+idBox).fadeIn();
-                                     }*/
+                                    if(msg == 1) {
+                                        $('.rating-'+idBox).fadeIn();
+                                    }*/
                                 }
                             });
                         }

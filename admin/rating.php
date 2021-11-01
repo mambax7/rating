@@ -9,160 +9,165 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
-use Xoops\Core\Request;
-
 /**
  * rating module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         rating
  * @since           2.6.0
  * @author          Cointin Maxime (AKA Kraven30)
  */
-include __DIR__ . '/header.php';
-// Get main instance
-$xoops = Xoops::getInstance();
 
-// Call header
-$xoops->header('admin:rating/rating.tpl');
+use Xmf\Module\Admin;
+use Xmf\Request;
+use XoopsModules\Rating\{
+    Helper,
+    Modules,
+    ModulesHandler
+};
 
-// Call Header & ...
+//$GLOBALS['xoopsOption']['template_main'] = 'admin/rating.tpl';
+require_once __DIR__ . '/admin_header.php';
+xoops_load('XoopsPageNav');
 
-//$xoops->header('admin:rating/rating.tpl');
-//$xoops->header('rating.tpl');
-$admin_page = new \Xoops\Module\Admin();
-$admin_page->renderNavigation('rating.php');
-$xoops->theme()->addScript('media/xoops/xoops.js');
-$xoops->theme()->addStylesheet('modules/system/css/admin.css');
+xoops_cp_header();
+$adminObject = Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
+
+$helper = Helper::getInstance();
+/** @var ModulesHandler $modulesHandler */
+$modulesHandler = $helper->getHandler('Modules');
 
 // Parameters
 $nb_rating = $helper->getConfig('rating_pager');
 
 // Get $_GET, $_POST, ...
-//$request = \Xoops\Core\HttpRequest::getInstance();
-$op = Request::getString('op', 'list');
+$op    = Request::getString('op', 'list');
 $start = Request::getInt('start', 0);
 
 switch ($op) {
     case 'list':
     default:
-        $admin_page->addTips(_AM_RATING_TIPS);
-        $admin_page->addItemButton(_AM_RATING_ADD, 'rating.php?op=add', 'add');
-        $admin_page->renderTips();
-        $admin_page->renderButton();
 
-        $rating_count = $helper->getHandlerRatingModules()->getCount();
-        $rating = $helper->getHandlerRatingModules()->getRatingModules($start, $nb_rating, false);
+        $adminObject->addItemButton(_AM_RATING_ADD, 'rating.php?op=add', 'add');
+        $adminObject->displayButton('left', '');
 
-        $xoops->tpl()->assign('ratings', $rating);
-        $xoops->tpl()->assign('rating_count', $rating_count);
+        $rating_count = $modulesHandler->getCount();
+        $ratings      = $modulesHandler->getRatingModules($start, $nb_rating, false);
 
-        // Display Page Navigation
-        if ($rating_count > $nb_rating) {
-            $nav = new XoopsPageNav($rating_count, $nb_rating, $start, 'start', 'op=list');
-            $xoops->tpl()->assign('nav_menu', $nav->renderNav(2));
-        }
+        //
+        $xoopsTpl->assign('ratings', $ratings);
+        $xoopsTpl->assign('rating_count', $rating_count);
+
+        echo $GLOBALS['xoopsTpl']->fetch($helper->path('/templates/admin/rating.tpl'));
+
         break;
     // New rating
     case 'add':
-        $admin_page->addItemButton(_AM_RATING_LIST, 'rating.php', 'application-view-detail');
-        $admin_page->renderButton();
-        $xoops->tpl()->assign('info_msg', $xoops->alert('info', $info_msg, _AM_RATING_ALERT_INFO_TITLE));
+        $adminObject->addItemButton(_AM_RATING_LIST, 'rating.php', 'list');
+        $adminObject->addItemButton(_AM_RATING_ADD, 'rating.php?op=add', 'add');
+        $adminObject->displayButton('left', '');
+
         // Create form
-        $obj = $helper->getHandlerRatingModules()->create();
-        $form = $helper->getForm($obj, 'modules');
-        $xoops->tpl()->assign('form', $form->render());
+        $modulesObj = $helper->getHandler('Modules')->create();
+        //        $form = $helper->getForm($obj, 'modules');
+        /** @var \XoopsThemeForm $form */
+        $form = $modulesObj->getForm();
+        //        $xoopsTpl->assign('form', $form->render());
+        $form->display();
         break;
     // Edit smilie
     case 'edit':
-        $admin_page->addItemButton(_AM_RATING_LIST, 'rating.php', 'application-view-detail');
-        $admin_page->renderButton();
-        $xoops->tpl()->assign('info_msg', $xoops->alert('info', $info_msg, _AM_RATING_ALERT_INFO_TITLE));
+        $adminObject->addItemButton(_AM_RATING_LIST, 'rating.php', 'list');
+        $adminObject->displayButton('left', '');
+        //        $xoopsTpl->assign('info_msg', $xoops->alert('info', $info_msg, _AM_RATING_ALERT_INFO_TITLE));
         // Create form
-        $id = Request::getInt('id', 0);
-        $obj = $helper->getHandlerRatingModules()->get($id);
-        $form = $helper->getForm($obj, 'modules');
-        $xoops->tpl()->assign('form', $form->render());
+        $id         = Request::getInt('id', 0);
+        $modulesObj = $helper->getHandler('Modules')->get($id);
+        $form       = $modulesObj->getForm();
+        /** @var \XoopsThemeForm $form */
+        //        $xoopsTpl->assign('form', $form->render());
+        $form->display();
         break;
     // Save smilie
     case 'save':
-        if (!$xoops->security()->check()) {
-            $xoops->redirect('rating.php', 3, implode('<br />', $xoops->security()->getErrors()));
+        //        if (!$xoops->security()->check()) {
+        //            $xoops->redirect('rating.php', 3, implode('<br>', $xoops->security()->getErrors()));
+        //        }
+        if (!$GLOBALS['xoopsSecurity']->check()) {
+            $helper->redirect('admin/rating.php', 3, $GLOBALS['xoopsSecurity']->getErrors());
         }
 
         $id = Request::getInt('id', 0);
-        if (isset($id) && 0 !== $id) {
-            $obj = $helper->getHandlerRatingModules()->get($id);
+        if (isset($id) && 0 != $id) {
+            $modulesObj = $helper->getHandler('Modules')->get($id);
         } else {
-            $obj = $helper->getHandlerRatingModules()->create();
+            $modulesObj = $helper->getHandler('Modules')->create();
         }
-        $obj->setVar('mid', Request::getInt('mid', 0));
-        $obj->setVar('page', Request::getString('page', ''));
-        $obj->setVar('title', Request::getString('title', ''));
-        $obj->setVar('status', Request::getBool('status', 1));
-        $obj->setVar('display', Request::getBool('display', 1));
-        $obj->setVar('nb_stars', Request::getInt('nb_stars', 5));
+        $modulesObj->setVar('mid', Request::getInt('mid', 0));
+        $modulesObj->setVar('page', Request::getString('page', ''));
+        $modulesObj->setVar('title', Request::getString('title', ''));
+        $modulesObj->setVar('status', Request::getBool('status', 1));
+        $modulesObj->setVar('display', Request::getBool('display', 1));
+        $modulesObj->setVar('stars', Request::getInt('stars', 5));
 
-//        $error_msg = '';
-        if (!isset($error_msg)) {
-            if ($helper->getHandlerRatingModules()->insert($obj)) {
-                $xoops->redirect('rating.php', 2, _AM_RATING_SAVE);
+        $error_msg = '';
+        if ('' == $error_msg) {
+            if ($helper->getHandler('Modules')->insert($modulesObj)) {
+                $helper->redirect('admin/rating.php', 2, _AM_RATING_SAVE);
             }
-            $error_msg .= $obj->getHtmlErrors();
+            $error_msg .= $modulesObj->getHtmlErrors();
         }
-        $admin_page->addItemButton(_AM_RATING_LIST, 'rating.php', 'application-view-detail');
-        $admin_page->renderButton();
-        $xoops->tpl()->assign('info_msg', $xoops->alert('info', $info_msg, _AM_RATING_ALERT_INFO_TITLE));
-        $xoops->tpl()->assign('error_msg', $xoops->alert('error', $error_msg, _AM_RATING_ALERT_ERROR_TITLE));
-        $form = $helper->getForm($obj, 'rating');
-        $xoops->tpl()->assign('form', $form->render());
+        $adminObject->addItemButton(_AM_RATING_LIST, 'rating.php', 'list');
+        //        $adminObject->displayButton('left', '');
+        //        $xoopsTpl->assign('info_msg', $xoops->alert('info', $info_msg, _AM_RATING_ALERT_INFO_TITLE));
+        //        $xoopsTpl->assign('error_msg', $xoops->alert('error', $error_msg, _AM_RATING_ALERT_ERROR_TITLE));
+        /** @var \XoopsThemeForm $form */
+        $form = $modulesObj->getForm();
+        //        $xoopsTpl->assign('form', $form->render());
+        $form->display();
         break;
     //Del a rating
     case 'del':
-        $id = Request::getInt('id', 0);
-        $ok = Request::getInt('ok', 0);
-        $obj = $helper->getHandlerRatingModules()->get($id);
+        $id         = Request::getInt('id', 0);
+        $ok         = Request::getInt('ok', 0);
+        $modulesObj = $helper->getHandler('Modules')->get($id);
 
         if (1 == $ok) {
-            if (!$xoops->security()->check()) {
-                $xoops->redirect('rating.php', 3, implode(',', $xoops->security()->getErrors()));
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                $helper->redirect('admin/rating.php', 3, $GLOBALS['xoopsSecurity']->getErrors());
             }
-            if ($helper->getHandlerRatingModules()->delete($obj)) {
-                $xoops->redirect('rating.php', 2, _AM_RATING_DELETED);
+            if ($helper->getHandler('Modules')->delete($modulesObj)) {
+                $helper->redirect('admin/rating.php', 2, _AM_RATING_DELETED);
             } else {
-                echo $xoops->alert('error', $obj->getHtmlErrors());
+                echo $GLOBALS['xoopsSecurity']->getErrors();
             }
         } else {
-            $xoops->confirm([
-                                'ok' => 1,
-                                'id' => $id,
-                                'op' => 'del', ], XOOPS_URL . '/modules/rating/admin/rating.php', sprintf(_AM_RATING_SUREDEL) . '<br />');
+            xoops_confirm(
+                [
+                    'ok' => 1,
+                    'id' => $id,
+                    'op' => 'del',
+                ],
+                XOOPS_URL . '/modules/rating/admin/rating.php',
+                sprintf(_AM_RATING_SUREDEL) . '<br>'
+            );
         }
         break;
     case 'rating_update_display':
         $id = Request::getInt('id', 0);
         if ($id > 0) {
-            $obj = $helper->getHandlerRatingModules()->get($id);
-            $old = $obj->getVar('display');
-            $obj->setVar('display', !$old);
-            if ($helper->getHandlerRatingModules()->insert($obj)) {
+            $modulesObj = $helper->getHandler('Modules')->get($id);
+            $old        = $modulesObj->getVar('display');
+            $modulesObj->setVar('display', !$old);
+            if ($helper->getHandler('Modules')->insert($modulesObj)) {
                 exit;
             }
-            echo $obj->getHtmlErrors();
+            echo $modulesObj->getHtmlErrors();
         }
         break;
-    /*case 'rating_update_status':
-        $id = Request::getInt('id', 0);
-        if ($id > 0) {
-            $obj = $helper->getHandlerRatingModules()->get($id);
-            $old = $obj->getVar('status');
-            $obj->setVar('status', !$old);
-            if ($helper->getHandlerRatingModules()->insert($obj)) {
-                exit;
-            }
-            echo $obj->getHtmlErrors();
-        }
-    break;*/
 }
-$xoops->footer();
+
+//xoops_cp_footer();
+require __DIR__ . '/admin_footer.php';

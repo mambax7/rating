@@ -13,54 +13,49 @@
  * rating module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         rating
  * @since           2.6.0
  * @author          Cointin Maxime (AKA Kraven30)
- * @param mixed $pageId
- * @param mixed $pageName
  */
+if (!defined('XOOPS_ROOT_PATH') || !is_object($GLOBALS['xoopsModule'])) {
+    exit();
+}
 
-//if (!defined('XOOPS_ROOT_PATH') || !is_object($GLOBALS["xoopsModule"])) {
-//    die();
-//}
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
-/**
- * @param  int    $pageId
- * @param  string $pageName
- * @return mixed
- */
 function rating($pageId = 0, $pageName = '')
 {
-    $xoops = Xoops::getInstance();
+    $helper = \XoopsModules\Rating\Helper::getInstance();
+    $helper->loadLanguage('main');
 
-    if (!is_object($GLOBALS['xoopsModule']) || 'rating' !== $GLOBALS['xoopsModule']->getVar('dirname')) {
-        $xoops->loadLanguage('main', 'rating');
-    }
+    $GLOBALS['xoTheme']->addStylesheet('/modules/rating/assets/css/jRating.jquery.css');
+    $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
+    $GLOBALS['xoTheme']->addScript('/modules/rating/assets/js/jRating.jquery.js');
 
     if (is_numeric($pageId)) {
         $moduleId = $GLOBALS['xoopsModule']->getVar('mid');
 
         $script_name = explode('/', $_SERVER['SCRIPT_NAME']);
-        $pageName = end($script_name);
+        $pageName    = end($script_name);
 
-        $helper = Xoops\Module\Helper::getHelper('rating');
-        $ratings = $helper->getHandlerRatingModules()->getRatingDisplay($pageId, $pageName, $moduleId);
+        $modulesHandler = $helper->getHandler('Modules');
+        $ratings        = $modulesHandler->getRatingDisplay($pageId, $pageName, $moduleId);
     }
     $script = '(function($){
                     $(document).ready(function(){';
     foreach ($ratings as $rating) {
         $script .= '$(".rating-' . $rating['id'] . '").jRating({
                         url: "' . XOOPS_URL . '",
-                        length : ' . $rating['nb_stars'] . ',
-                        rateMax : ' . $rating['nb_stars'] . ',
+                        length : ' . $rating['stars'] . ',
+                        rateMax : ' . $rating['stars'] . ',
                         pageId : ' . $rating['pageId'] . ',
                         isDisabled : ' . $rating['hasVoted'] . '
                     });';
     }
     $script .= '    });
                })(jQuery)';
-    $xoops->theme()->addScript('', ['type' => 'text/javascript'], $script);
+    $GLOBALS['xoTheme']->addScript('', ['type' => 'text/javascript'], $script);
 
     return $ratings;
 }

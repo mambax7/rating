@@ -13,16 +13,16 @@
  * rating module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         rating
  * @since           2.6.0
  * @author          Cointin Maxime (AKA Kraven30)
  */
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/admin_header.php';
+xoops_cp_header();
 
-$xoops = Xoops::getInstance();
-$xoops->header();
-$aboutAdmin = new \Xoops\Module\Admin();
-$aboutAdmin->displayNavigation('about.php');
-$aboutAdmin->displayAbout(true);
-$xoops->footer();
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject::setPaypal('xoopsfoundation@gmail.com');
+$adminObject->displayAbout(false);
+
+require_once __DIR__ . '/admin_footer.php';

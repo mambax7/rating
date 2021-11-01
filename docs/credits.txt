@@ -1,4 +1,6 @@
 Credits
+
 -------------------
 
-This module was developed by Cointin Maxime (Kraven30)
+Originally developed by Cointin Maxime (Kraven30) for XOOPS 2.6.0
+

@@ -1,4 +1,7 @@
 <?php
+
+namespace XoopsModules\Rating;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -13,58 +16,83 @@
  * rating module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (htC:\wamp64\www\260test14\modules\ratingtp://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         rating
  * @since           2.6.0
  * @author          Cointin Maxime (AKA Kraven30)
  */
-//defined('XOOPS_ROOT_PATH') or die('XOOPS root path not defined');
 
-class Rating extends Xoops\Module\Helper\HelperAbstract
+/**
+ * Class Helper
+ */
+class Helper extends \Xmf\Module\Helper
 {
+    public $debug;
+
     /**
-     * Init the module
+     * @param bool $debug
+     * @internal param $debug
+     */
+    protected function __construct($debug = false)
+    {
+        $this->debug   = $debug;
+        $moduleDirName = \basename(\dirname(__DIR__));
+        parent::__construct($moduleDirName);
+    }
+
+    /**
+     * @param bool $debug
      *
-     * @return null|void
+     * @return \XoopsModules\Rating\Helper
      */
-    public function init()
+    public static function getInstance($debug = false)
     {
-        $this->setDirname('rating');
-    }
-
-    /**
-     * @return Rating
-     */
-    public static function getInstance()
-    {
-        return parent::getInstance();
-    }
-
-    /**
-     * @return RatingRatingModulesHandler
-     */
-    public function getHandlerRatingModules()
-    {
-        return $this->getHandler('modules');
-    }
-
-    /**
-     * @return RatingRatingUserHandler
-     */
-    public function getHandlerRatingUser()
-    {
-        return $this->getHandler('user');
-    }
-
-    /**
-     * @return int|mixed
-     */
-    public function getUserId()
-    {
-        if ($this->xoops()->isUser()) {
-            return $this->xoops()->user->getVar('uid');
+        static $instance;
+        if (null === $instance) {
+            $instance = new static($debug);
         }
 
-        return 0;
+        return $instance;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDirname()
+    {
+        return $this->dirname;
+    }
+
+    /**
+     * Get an Object Handler
+     *
+     * @param string $name name of handler to load
+     *
+     * @return bool|\XoopsObjectHandler|\XoopsPersistableObjectHandler
+     */
+    public function getHandler($name)
+    {
+        $ret = false;
+
+        $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
+        if (!\class_exists($class)) {
+            throw new \RuntimeException("Class '$class' not found");
+        }
+        /** @var \XoopsMySQLDatabase $db */
+        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        $helper = self::getInstance();
+        $ret    = new $class($db, $helper);
+        $this->addLog("Getting handler '{$name}'");
+        return $ret;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isUser()
+    {
+        global $xoopsUser;
+
+        return \is_object($xoopsUser);
     }
 }

@@ -13,68 +13,81 @@
  * rating module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         rating
  * @since           2.6.0
  * @author          Cointin Maxime (AKA Kraven30)
  */
-$modversion = [];
-$modversion['name'] = _MI_RATING_NAME;
-$modversion['description'] = _MI_RATING_DSC;
-$modversion['version'] = 0.2;
-$modversion['author'] = 'Kraven30';
-$modversion['nickname'] = 'Cointin Maxime';
-$modversion['credits'] = 'The XOOPS Project, Mamba';
-$modversion['license'] = 'GNU GPL 2.0';
-$modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html/';
-$modversion['official'] = 1;
-$modversion['help'] = 'page=help';
-$modversion['image'] = 'assets/images/module_logo.png';
-$modversion['dirname'] = 'rating';
+require_once __DIR__ . '/preloads/autoloader.php';
 
-//about
-$modversion['release_date'] = '2015/11/23';
-$modversion['module_website_url'] = 'http://www.xoops.org/';
+$moduleDirName = basename(__DIR__);
+
+$modversion                        = [];
+$modversion['version']             = 0.2;
+$modversion['module_status']       = 'ALPHA 1';
+$modversion['release_date']        = '2017/07/17';
+$modversion['name']                = _MI_RATING_NAME;
+$modversion['description']         = _MI_RATING_DSC;
+$modversion['author']              = 'Kraven30';
+$modversion['nickname']            = 'Cointin Maxime';
+$modversion['credits']             = 'The XOOPS Project';
+$modversion['license']             = 'GNU GPL 2.0';
+$modversion['license_url']         = 'www.gnu.org/licenses/gpl-2.0.html/';
+$modversion['official']            = 0;
+$modversion['help']                = 'page=help';
+$modversion['image']               = 'assets/images/logo.png';
+$modversion['dirname']             = $moduleDirName;
+$modversion['modicons16']          = 'assets/images/icons/16';
+$modversion['modicons32']          = 'assets/images/icons/32';
+$modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['module_status'] = 'ALPHA 1';
-$modversion['min_php'] = '5.4';
-$modversion['min_xoops'] = '2.6.0';
-$modversion['min_db'] = ['mysql' => '5.0.7', 'mysqli' => '5.0.7'];
-
+$modversion['min_php']             = '7.2';
+$modversion['min_xoops']           = '2.5.10';
+$modversion['min_admin']           = '1.2';
+$modversion['min_db']              = ['mysql' => '5.5'];
 // paypal
-$modversion['paypal'] = [];
-$modversion['paypal']['business'] = 'cointin.maxime@gmail.com';
-$modversion['paypal']['item_name'] = '';
-$modversion['paypal']['amount'] = 0;
+$modversion['paypal']                  = [];
+$modversion['paypal']['business']      = 'cointin.maxime@gmail.com';
+$modversion['paypal']['item_name']     = '';
+$modversion['paypal']['amount']        = 0;
 $modversion['paypal']['currency_code'] = 'EUR';
-
 // Admin things
-$modversion['hasAdmin'] = 1;
+$modversion['hasAdmin']    = 1;
 $modversion['system_menu'] = 1;
-$modversion['adminindex'] = 'admin/index.php';
-$modversion['adminmenu'] = 'admin/menu.php';
-
+$modversion['adminindex']  = 'admin/index.php';
+$modversion['adminmenu']   = 'admin/menu.php';
 //Menus
-$modversion['hasMain'] = 0;
-
-// Manage extension
-$modversion['extension'] = 1;
-$modversion['extension_module'][] = 'system';
-
+$modversion['hasMain'] = 1;
 // Mysql file
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
+$modversion['tables'] = [
+    $moduleDirName . '_' . 'modules',
+    $moduleDirName . '_' . 'user',
+];
+
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = [
+    ['name' => _MI_RATING_OVERVIEW, 'link' => 'page=help'],
+    ['name' => _MI_RATING_DISCLAIMER, 'link' => 'page=disclaimer'],
+    ['name' => _MI_RATING_LICENSE, 'link' => 'page=license'],
+    ['name' => _MI_RATING_SUPPORT, 'link' => 'page=support'],
+];
+
+// ------------------- Templates ------------------- //
+$modversion['templates'] = [
+    ['file' => 'rating.tpl', 'description' => ''],
+    ['file' => 'admin/rating.tpl', 'description' => ''],
+];
 
 // JQuery
 $modversion['jquery'] = 1;
 
-// Tables created by sql file (without prefix!)
-$modversion['tables'][1] = 'rating_modules';
-$modversion['tables'][2] = 'rating_user';
 // Preferences
-$i = 0;
-$modversion['config'][$i]['name'] = 'rating_pager';
-$modversion['config'][$i]['title'] = '_MI_RATING_PAGER';
-$modversion['config'][$i]['description'] = '_MI_RATING_PAGERDSC';
-$modversion['config'][$i]['formtype'] = 'textbox';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = 20;
+$modversion['config'][] = [
+    'name'        => 'rating_pager',
+    'title'       => '_MI_RATING_PAGER',
+    'description' => '_MI_RATING_PAGERDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 20,
+];

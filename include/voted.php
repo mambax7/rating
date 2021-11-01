@@ -9,47 +9,46 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
-use Xoops\Core\Request;
-
 /**
  * rating module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         rating
  * @since           2.6.0
  * @author          Cointin Maxime (AKA Kraven30)
  */
-include('../../../mainfile.php');
 
-//if (!defined('XOOPS_ROOT_PATH')) {
-//    die();
-//}
+use Xmf\Request;
 
-if (isset($_POST['action'])) {
-    if ('rating' === htmlentities(Request::getString('action', '', 'POST'), ENT_QUOTES, 'UTF-8')) {
-        $xoops = Xoops::getInstance();
-        $helper = Rating::getInstance();
+require dirname(__DIR__, 3) . '/mainfile.php';
 
-        if (!$xoops->isUser()) {
-            exit(XoopsLocale::E_NO_ACCESS_PERMISSION);
-        }
-        $xoops->disableErrorReporting();
-        $helper = Xoops\Module\Helper::getHelper('rating');
-        $obj = $helper->getHandlerRatingUser()->create();
-        echo $idBox;
-        $obj->setVar('rating_id', Request::getInt('idBox'));
-        $obj->setVar('item_id', Request::getInt('pageId'));
-        $obj->setVar('uid', $helper->getUserId());
-        $obj->setVar('rate', Request::getFloat('rate'));
-        $obj->setVar('date', time());
-        $obj->setVar('ip', $helper->xoops()->getenv('REMOTE_ADDR'));
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
-        $success = (true === $helper->getHandlerRatingUser()->insert($obj));
-        if ($success) {
-            echo Request::getInt('pageId');
-        } else {
-            echo 0;
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+
+global $xoopsUser;
+
+if (Request::hasVar('action', 'POST')) {
+    if ('rating' === htmlentities($_POST['action'], ENT_QUOTES, 'UTF-8')) {
+        $helper = \XoopsModules\Rating\Helper::getInstance();
+        if ($xoopsUser) {
+            $obj = $helper->getHandler('User')->create();
+            echo $idBox;
+            $obj->setVar('rating_id', Request::getInt('idBox', 0, 'REQUEST'));
+            $obj->setVar('item_id', Request::getInt('pageId', 0, 'REQUEST'));
+            $obj->setVar('uid', $xoopsUser->getVar('uid'));
+            $obj->setVar('rate', (float)$_REQUEST['rate']);
+            $obj->setVar('date', time());
+            //        $obj->setVar('ip', $helper->xoops()->getenv('REMOTE_ADDR'));
+            $obj->setVar('ip', '1:1:');
+
+            $success = (true === $helper->getHandler('User')->insert($obj)) ? true : false;
+            if ($success) {
+                echo $_REQUEST['pageId'];
+            } else {
+                echo 0;
+            }
         }
     } else {
         echo 0;

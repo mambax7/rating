@@ -1,5 +1,6 @@
 <div style="float:right;">
     <table style="width:100%;">
+        ==========================
         <{foreach item=rating from=$ratings}>
             <tr>
                 <{if $rating.title != ''}>

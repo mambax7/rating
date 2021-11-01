@@ -1,9 +1,13 @@
-Version 0.2         NOT RELEASED
---------------------------------------
-- upgrade to latest XOOPS 2.6.0 version (mamba)
-- fix bug with "has voted" check (mamba)
+<h5>0.2.0 Alpha 1   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.25, PHP 8.0.12, PHP 8.1.0 Beta 5
+<hr>
+- converting to XOOPS 2.5.11 (mamba)
+- namespaces (mamba)
+- class autoloading (mamba)
+- renamed 'PHP_SELF' to 'SCRIPT_NAME' (mamba)
+- Yoda
+- PHP7, PHP8 adjustments (mamba)
 
-Version 0.1          2013-3-24
---------------------------------------
-- Original release (Kraven30)
+<h5>0.1.0  </h5>
+<hr>
+Create rating module: Cointin Maxime (Kraven30) for XOOPS 2.6.0
 
