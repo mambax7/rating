@@ -43,7 +43,7 @@ class UserHandler extends \XoopsPersistableObjectHandler
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
 
-        return parent::getAll($criteria, false, $asObject);
+        return $this->getAll($criteria, false, $asObject);
     }
 
     /**
@@ -57,7 +57,7 @@ class UserHandler extends \XoopsPersistableObjectHandler
         $criteria->add(new \Criteria('rating_id', $Id, '='));
         $criteria->add(new \Criteria('item_id', $pageId, '='));
 
-        return parent::getCount($criteria);
+        return $this->getCount($criteria);
     }
 
     /**
@@ -98,6 +98,6 @@ class UserHandler extends \XoopsPersistableObjectHandler
             $criteria->add(new \Criteria('item_id', $pageId), 'AND');
             $criteria->add(new \Criteria('rating_id', $id), 'AND');
         }
-        return parent::getCount($criteria);
+        return $this->getCount($criteria);
     }
 }

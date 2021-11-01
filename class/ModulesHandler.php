@@ -53,7 +53,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        return parent::getAll($criteria, false, $asObject);
+        return $this->getAll($criteria, false, $asObject);
     }
 
     /**
